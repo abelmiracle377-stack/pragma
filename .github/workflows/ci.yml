@@ -20,7 +20,7 @@ jobs:
         with:
           version: stable
 
-      - name: Install test dependency
+      - name: Install forge-std
         run: forge install foundry-rs/forge-std --no-commit
 
       - name: Format check
@@ -31,3 +31,7 @@ jobs:
 
       - name: Test
         run: forge test -vvv
+
+      - name: Check for tracked secrets
+        run: |
+          ! git ls-files | grep -E '(^|/)(\.env|.*\.key|.*\.pem)$'
