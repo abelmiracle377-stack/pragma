@@ -1,16 +1,36 @@
 # PRAGMA
 
-A security-first Solidity project foundation designed for auditable, reproducible smart-contract development.
+A security-first Ethereum NFT project built in Solidity with Foundry.
 
-> **Status:** Early-stage repository foundation. No production contract behavior is claimed yet.
+> **Status:** Development/testnet-ready foundation. Review and audit before production deployment.
 
-## Goals
+## NFT contract
 
-- Keep Solidity builds reproducible and compiler versions explicit.
-- Make security review and testing part of the normal development workflow.
-- Keep production deployments separate from local development and tests.
-- Prefer small, reviewable, test-backed changes.
-- Document assumptions and security-sensitive decisions.
+`src/PragmaNFT.sol` implements an ERC-721-compatible NFT collection with:
+
+- ERC-165 interface detection
+- sequential token IDs
+- owner-controlled minting
+- transfers and safe transfers
+- token approvals and operator approvals
+- burning
+- metadata `tokenURI`
+- configurable base URI
+- ownership transfer
+- custom errors for gas-efficient failure paths
+- zero-address and token-existence validation
+
+### Current design
+
+Minting is intentionally restricted to the contract owner. The initial implementation does **not** include a public mint price, royalties, upgradeability, marketplace logic, or automatic production deployment.
+
+Metadata follows the pattern:
+
+```text
+<baseURI>/<tokenId>.json
+```
+
+For example, with `ipfs://collection/`, token 1 resolves to `ipfs://collection/1.json`.
 
 ## Development
 
@@ -24,7 +44,7 @@ This repository uses [Foundry](https://book.getfoundry.sh/) for compilation, tes
 ### Verify locally
 
 ```bash
-forge --version
+forge install foundry-rs/forge-std --no-commit
 forge fmt --check
 forge build
 forge test -vvv
@@ -32,29 +52,27 @@ forge test -vvv
 
 ## Security model
 
-This project is intended to evolve with security controls from the beginning. Before production deployment, contract-specific threat modeling, invariant tests, access-control review, dependency review, and an independent security assessment should be completed.
+Before production deployment, complete:
 
-See [SECURITY.md](SECURITY.md) for the vulnerability-reporting policy.
+- threat modeling
+- access-control review
+- reentrancy and external-call review
+- invariant/fuzz testing
+- metadata and URI integrity review
+- dependency review
+- deployment configuration review
+- independent smart-contract audit
 
-## Quality gates
-
-Pull requests should pass:
-
-1. Solidity formatting
-2. Compilation with the pinned compiler
-3. Unit tests
-4. Static analysis where configured
-5. No committed secrets or deployment credentials
-6. Documentation updates for security-sensitive behavior
+See [SECURITY.md](SECURITY.md) for vulnerability reporting.
 
 ## Repository structure
 
 ```text
 .
+├── src/PragmaNFT.sol
+├── test/PragmaNFT.t.sol
+├── script/                 # deployment scripts
 ├── .github/workflows/ci.yml
-├── src/                 # Solidity contracts
-├── test/                # Unit and invariant tests
-├── script/              # Deployment/maintenance scripts
 ├── SECURITY.md
 ├── CONTRIBUTING.md
 ├── foundry.toml
@@ -63,4 +81,4 @@ Pull requests should pass:
 
 ## License
 
-License terms will be defined before production distribution.
+MIT
