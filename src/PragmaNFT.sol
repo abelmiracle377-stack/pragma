@@ -29,13 +29,17 @@ contract PragmaNFT {
     error TransferFromIncorrectOwner();
     error ApprovalToCurrentOwner();
     error ApprovalCallerNotOwnerNorApproved();
-    error BaseURIUpdateUnauthorized();
 
     event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
     event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     event BaseURIUpdated(string previousBaseURI, string newBaseURI);
+
+    bytes4 private constant _ERC165_INTERFACE_ID = 0x01ffc9a7;
+    bytes4 private constant _ERC721_INTERFACE_ID = 0x80ac58cd;
+    bytes4 private constant _ERC721_METADATA_INTERFACE_ID = 0x5b5e139f;
+    bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
 
     constructor(string memory name_, string memory symbol_, string memory baseURI_) {
         if (msg.sender == address(0)) revert InvalidAddress();
@@ -51,6 +55,13 @@ contract PragmaNFT {
     modifier onlyOwner() {
         if (msg.sender != owner) revert NotOwner();
         _;
+    }
+
+    /// @notice ERC-165 interface detection.
+    function supportsInterface(bytes4 interfaceId) external pure returns (bool) {
+        return interfaceId == _ERC165_INTERFACE_ID
+            || interfaceId == _ERC721_INTERFACE_ID
+            || interfaceId == _ERC721_METADATA_INTERFACE_ID;
     }
 
     function totalSupply() external view returns (uint256) {
@@ -189,7 +200,7 @@ contract PragmaNFT {
 
         (bool success, bytes memory returndata) = to.call(
             abi.encodeWithSelector(
-                bytes4(keccak256("onERC721Received(address,address,uint256,bytes)")),
+                _ERC721_RECEIVED,
                 operator,
                 from,
                 tokenId,
@@ -203,7 +214,7 @@ contract PragmaNFT {
         assembly {
             retval := mload(add(returndata, 32))
         }
-        return retval == bytes4(keccak256("onERC721Received(address,address,uint256,bytes)"));
+        return retval == _ERC721_RECEIVED;
     }
 
     function _toString(uint256 value) private pure returns (string memory) {
