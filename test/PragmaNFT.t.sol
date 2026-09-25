@@ -13,6 +13,13 @@ contract PragmaNFTTest is Test {
         nft = new PragmaNFT("Pragma NFT", "PRAGMA", "ipfs://example/");
     }
 
+    function testSupportsERC721Interfaces() public {
+        assertTrue(nft.supportsInterface(0x01ffc9a7));
+        assertTrue(nft.supportsInterface(0x80ac58cd));
+        assertTrue(nft.supportsInterface(0x5b5e139f));
+        assertFalse(nft.supportsInterface(0xffffffff));
+    }
+
     function testInitialState() public {
         assertEq(nft.name(), "Pragma NFT");
         assertEq(nft.symbol(), "PRAGMA");
