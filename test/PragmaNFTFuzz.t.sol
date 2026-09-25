@@ -8,7 +8,7 @@ contract PragmaNFTFuzzTest is Test {
     PragmaNFT internal nft;
 
     function setUp() public {
-        nft = new PragmaNFT("Pragma NFT", "PRAGMA", "ipfs://collection/");
+        nft = new PragmaNFT("Pragma NFT", "PRAGMA", "ipfs://collection/", 1000, 500);
     }
 
     function testFuzzMintBalance(address recipient) public {
