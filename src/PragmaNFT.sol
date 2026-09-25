@@ -10,6 +10,8 @@ contract PragmaNFT {
 
     uint256 private _nextTokenId = 1;
     uint256 private _totalSupply;
+    uint256 public immutable maxSupply;
+    uint96 public immutable royaltyBps;
 
     address public owner;
     string private _baseTokenURI;
@@ -26,6 +28,11 @@ contract PragmaNFT {
     error TokenDoesNotExist();
     error TokenAlreadyExists();
     error UnsafeRecipient();
+    error MaxSupplyExceeded();
+    error InvalidRoyaltyBps();
+    error InvalidRoyaltyReceiver();
+    error InsufficientPayment();
+    error WithdrawFailed();
     error TransferFromIncorrectOwner();
     error ApprovalToCurrentOwner();
     error ApprovalCallerNotOwnerNorApproved();
@@ -35,19 +42,31 @@ contract PragmaNFT {
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     event BaseURIUpdated(string previousBaseURI, string newBaseURI);
+    event RoyaltyUpdated(address indexed receiver, uint256 indexed tokenId, uint256 amount);
 
     bytes4 private constant _ERC165_INTERFACE_ID = 0x01ffc9a7;
     bytes4 private constant _ERC721_INTERFACE_ID = 0x80ac58cd;
     bytes4 private constant _ERC721_METADATA_INTERFACE_ID = 0x5b5e139f;
     bytes4 private constant _ERC721_RECEIVED = 0x150b7a02;
 
-    constructor(string memory name_, string memory symbol_, string memory baseURI_) {
+    constructor(
+        string memory name_,
+        string memory symbol_,
+        string memory baseURI_,
+        uint256 maxSupply_,
+        uint96 royaltyBps_
+    ) {
         if (msg.sender == address(0)) revert InvalidAddress();
 
         name = name_;
         symbol = symbol_;
         owner = msg.sender;
+        if (maxSupply_ == 0) revert MaxSupplyExceeded();
+        if (royaltyBps_ > 1000) revert InvalidRoyaltyBps();
+
         _baseTokenURI = baseURI_;
+        maxSupply = maxSupply_;
+        royaltyBps = royaltyBps_;
 
         emit OwnershipTransferred(address(0), msg.sender);
     }
@@ -137,6 +156,7 @@ contract PragmaNFT {
     function mint(address to) external onlyOwner returns (uint256 tokenId) {
         if (to == address(0)) revert InvalidAddress();
 
+        if (_totalSupply >= maxSupply) revert MaxSupplyExceeded();
         tokenId = _nextTokenId++;
         if (_owners[tokenId] != address(0)) revert TokenAlreadyExists();
 
@@ -163,6 +183,16 @@ contract PragmaNFT {
     function tokenURI(uint256 tokenId) external view returns (string memory) {
         ownerOf(tokenId);
         return string.concat(_baseTokenURI, _toString(tokenId), ".json");
+    }
+
+    function royaltyInfo(uint256 tokenId, uint256 salePrice)
+        external
+        view
+        returns (address receiver, uint256 royaltyAmount)
+    {
+        ownerOf(tokenId);
+        receiver = owner;
+        royaltyAmount = (salePrice * royaltyBps) / 10_000;
     }
 
     function setBaseURI(string calldata newBaseURI) external onlyOwner {
