@@ -10,7 +10,7 @@ contract PragmaNFTTest is Test {
     address buyer = address(0xB0B);
 
     function setUp() public {
-        nft = new PragmaNFT("Pragma NFT", "PRAGMA", "ipfs://example/");
+        nft = new PragmaNFT("Pragma NFT", "PRAGMA", "ipfs://example/", 1000, 500);
     }
 
     function testSupportsERC721Interfaces() public {
@@ -25,6 +25,8 @@ contract PragmaNFTTest is Test {
         assertEq(nft.symbol(), "PRAGMA");
         assertEq(nft.owner(), address(this));
         assertEq(nft.totalSupply(), 0);
+        assertEq(nft.maxSupply(), 1000);
+        assertEq(nft.royaltyBps(), 500);
     }
 
     function testMintAndTokenURI() public {
@@ -73,6 +75,19 @@ contract PragmaNFTTest is Test {
         vm.prank(buyer);
         vm.expectRevert(PragmaNFT.NotApproved.selector);
         nft.transferFrom(minter, buyer, tokenId);
+    }
+
+    function testRoyaltyInfo() public {
+        nft.mint(minter);
+        (address receiver, uint256 amount) = nft.royaltyInfo(1, 1 ether);
+        assertEq(receiver, address(this));
+        assertEq(amount, 0.05 ether);
+    }
+
+    function testSupplyCap() public {
+        for (uint256 i = 0; i < 1000; i++) nft.mint(minter);
+        vm.expectRevert(PragmaNFT.MaxSupplyExceeded.selector);
+        nft.mint(minter);
     }
 
     function testBaseURIUpdate() public {
