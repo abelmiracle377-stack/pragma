@@ -10,7 +10,7 @@ contract PragmaNFTInvariantTest is Test {
     address internal constant BOB = address(0xB0B);
 
     function setUp() public {
-        nft = new PragmaNFT("Pragma NFT", "PRAGMA", "ipfs://collection/");
+        nft = new PragmaNFT("Pragma NFT", "PRAGMA", "ipfs://collection/", 1000, 500);
     }
 
     function testInvariantSupplyMatchesKnownMintedSet() public {
