@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="PRAGMA — Ethereum NFT analytics and collection dashboard">
+  <title>PRAGMA — NFT Analytics</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><div class="logo">◆</div><div><strong>PRAGMA</strong><span>Ethereum NFT Platform</span></div></div>
+    <nav>
+      <a class="active" href="#dashboard">⌂ <span>Dashboard</span></a>
+      <a href="#collections">◈ <span>Explore NFTs</span></a>
+      <a href="#collections">▣ <span>Collections</span></a>
+      <a href="#mint">◇ <span>Mint NFT</span></a>
+      <a href="#analytics">◒ <span>Market Analytics</span></a>
+      <a href="#analytics">⌁ <span>Price Charts</span></a>
+      <a href="#portfolio">▤ <span>Portfolio</span></a>
+      <a href="#activity">⇄ <span>Transactions</span></a>
+      <a href="#contract">⌘ <span>Smart Contract</span></a>
+      <a href="https://github.com/abelmiracle377-stack/pragma" target="_blank" rel="noreferrer">◫ <span>GitHub</span></a>
+    </nav>
+    <div class="side-card"><div class="mini-logo">◆</div><h3>PRAGMA</h3><p>Build · Mint · Trade · Analyze</p><a href="#mint" class="btn">Launch Mint →</a></div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div class="search">⌕ <input placeholder="Search collections, NFTs, wallet address..." aria-label="Search"></div>
+      <div class="actions"><span class="network">◆ Ethereum <b>⌄</b></span><button id="walletBtn" class="btn">Connect Wallet</button><button id="themeBtn" class="icon-btn">☼</button></div>
+    </header>
+
+    <section id="dashboard" class="content">
+      <div class="hero"><div><p class="eyebrow">WEB3 / NFT ANALYTICS</p><h1>PRAGMA <span>Market Intelligence</span></h1><p class="muted">A data-rich interface for the PRAGMA Ethereum NFT contract and collection activity.</p></div><div class="hero-actions"><span class="live-dot">● Demo data</span><a class="ghost" href="https://github.com/abelmiracle377-stack/pragma" target="_blank" rel="noreferrer">View source ↗</a></div></div>
+
+      <div class="metrics">
+        <article class="metric"><div class="metric-top"><span>Floor Price</span><i>◆</i></div><strong id="floor">0.045 ETH</strong><small class="up">↗ 12.5%</small><div class="spark" data-points="18,22,20,27,25,31,29,38,34,43,40,48"></div></article>
+        <article class="metric"><div class="metric-top"><span>Market Volume</span><i>◈</i></div><strong id="volume">1,284.35 ETH</strong><small class="up">↗ 8.2%</small><div class="spark" data-points="12,16,14,18,17,25,22,31,28,34,30,39"></div></article>
+        <article class="metric"><div class="metric-top"><span>Total Supply</span><i>▱</i></div><strong id="supply">10,000</strong><small>Configured max supply</small><div class="progress"><span style="width:68%"></span></div></article>
+        <article class="metric"><div class="metric-top"><span>Holders</span><i>♙</i></div><strong>3,421</strong><small class="up">↗ 5.3%</small><div class="spark purple" data-points="20,18,23,25,24,31,29,35,33,42,40,48"></div></article>
+        <article class="metric"><div class="metric-top"><span>Royalty</span><i>%</i></div><strong>5%</strong><small>ERC-2981 style</small><div class="spark" data-points="30,30,31,30,31,31,31,32,31,31,32,32"></div></article>
+      </div>
+
+      <div class="grid-main">
+        <article id="analytics" class="panel chart-panel"><div class="panel-head"><div><h2>PRAGMA Floor Price</h2><span>ETH · illustrative market series</span></div><div class="tabs"><button>1D</button><button>7D</button><button class="selected">1M</button><button>3M</button><button>1Y</button></div></div><div id="priceChart" class="chart"></div><div class="chart-foot"><span>Aug 26</span><span>Sep 02</span><span>Sep 09</span><span>Sep 16</span><span>Sep 23</span></div></article>
+        <article class="panel volume-panel"><div class="panel-head"><div><h2>Volume & Sales</h2><span>Illustrative 7-day activity</span></div><select><option>7D</option><option>30D</option><option>90D</option></select></div><div id="volumeChart" class="bars"></div><div class="legend"><span><i class="dot blue"></i>Volume</span><span><i class="dot purple"></i>Sales</span></div></article>
+      </div>
+
+      <div class="grid-lower">
+        <article id="collections" class="panel"><div class="panel-head"><h2>Featured Collections</h2><a href="#">View all →</a></div><div class="collections">
+          <div class="collection"><div class="art art1">◈</div><h3>PRAGMA Genesis</h3><p>Floor <b>0.045 ETH</b></p><p>Supply <b>10,000</b></p></div>
+          <div class="collection"><div class="art art2">⌁</div><h3>PRAGMA Elements</h3><p>Floor <b>0.082 ETH</b></p><p>Supply <b>5,000</b></p></div>
+          <div class="collection"><div class="art art3">◆</div><h3>PRAGMA AI</h3><p>Floor <b>0.065 ETH</b></p><p>Supply <b>7,777</b></p></div>
+          <div class="collection"><div class="art art4">◇</div><h3>PRAGMA Horizons</h3><p>Floor <b>0.038 ETH</b></p><p>Supply <b>8,888</b></p></div>
+        </div></article>
+        <article id="activity" class="panel"><div class="panel-head"><h2>Market Activity</h2><a href="#">View all →</a></div><table><thead><tr><th>Type</th><th>NFT</th><th>Price</th><th>Time</th></tr></thead><tbody>
+          <tr><td>🛒 Sale</td><td>#4820</td><td>0.048 ETH</td><td>5m</td></tr><tr><td>ϟ Mint</td><td>#4819</td><td>0.044 ETH</td><td>12m</td></tr><tr><td>↗ Transfer</td><td>#4818</td><td>—</td><td>18m</td></tr><tr><td>🛒 Sale</td><td>#4816</td><td>0.052 ETH</td><td>32m</td></tr><tr><td>ϟ Mint</td><td>#4815</td><td>0.045 ETH</td><td>1h</td></tr>
+        </tbody></table></article>
+      </div>
+
+      <div class="grid-bottom">
+        <article id="portfolio" class="panel portfolio"><div class="panel-head"><h2>Portfolio Overview</h2><div class="tabs"><button class="selected">Value</button><button>Holdings</button></div></div><div class="portfolio-value"><div><strong>2.348 ETH</strong><small>$7,621.34 · <span class="up">↗ 14.2%</span></small></div><div id="portfolioChart" class="mini-chart"></div></div></article>
+        <article class="panel"><div class="panel-head"><h2>Network Stats</h2><span class="live-dot">Live-ready</span></div><div class="stats"><div><span>ETH Price</span><b id="ethPrice">Loading…</b></div><div><span>Gas Price</span><b>18.2 Gwei</b></div><div><span>Network</span><b>Ethereum</b></div><div><span>Contract</span><b class="mono">0x3a2f...9c4d</b></div></div><a class="btn full" href="https://etherscan.io" target="_blank" rel="noreferrer">View on Etherscan ↗</a></article>
+        <article id="mint" class="panel mint"><div class="mint-icon">◆</div><h2>Mint Your NFT</h2><p>Create a future PRAGMA collection experience on Ethereum.</p><button id="mintBtn" class="btn">Connect & Mint →</button><small>Demo interface — no transaction is submitted.</small></article>
+      </div>
+
+      <article id="contract" class="panel contract"><div><p class="eyebrow">SMART CONTRACT</p><h2>PRAGMA NFT Engineering</h2><p class="muted">Foundry-based Solidity project with testing, fuzzing, security analysis, supply controls and royalty calculation.</p></div><div class="contract-actions"><a class="ghost" href="https://github.com/abelmiracle377-stack/pragma" target="_blank" rel="noreferrer">GitHub repository ↗</a><a class="ghost" href="https://github.com/abelmiracle377-stack/pragma/blob/main/src/PragmaNFT.sol" target="_blank" rel="noreferrer">Contract source ↗</a></div></article>
+    </section>
+    <footer>PRAGMA · Ethereum NFT analytics interface · <span>Market values shown in this demo are illustrative.</span></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

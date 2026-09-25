@@ -94,3 +94,13 @@ CHANGELOG.md         Release history
 ## License
 
 MIT
+
+
+## Web3 Dashboard
+
+PRAGMA includes a GitHub Pages-ready NFT analytics dashboard with crypto-style charts, collection analytics, portfolio views, network statistics, market activity, and a demo mint interface.
+
+**Dashboard:** `docs/index.html`  
+**Source:** [GitHub repository](https://github.com/abelmiracle377-stack/pragma)
+
+The dashboard uses clearly labeled illustrative NFT metrics. ETH price can be refreshed from CoinGecko when the browser permits the public API request. It does not submit blockchain transactions or expose private keys.
