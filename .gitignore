@@ -1,0 +1,15 @@
+# Foundry
+cache/
+out/
+broadcast/
+lib/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
