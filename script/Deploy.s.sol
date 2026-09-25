@@ -12,7 +12,9 @@ contract DeployPragmaNFT is Script {
         nft = new PragmaNFT(
             vm.envString("NFT_NAME"),
             vm.envString("NFT_SYMBOL"),
-            vm.envString("NFT_BASE_URI")
+            vm.envString("NFT_BASE_URI"),
+            vm.envUint("NFT_MAX_SUPPLY"),
+            uint96(vm.envUint("NFT_ROYALTY_BPS"))
         );
         vm.stopBroadcast();
     }
